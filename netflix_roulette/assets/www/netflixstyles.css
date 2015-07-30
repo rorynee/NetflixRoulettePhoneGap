@@ -1,0 +1,66 @@
+@CHARSET "ISO-8859-1";
+
+/* This following style the different parts of the page. */
+/* Styling the logo */
+#logo {
+  text-align: center;
+  margin-left:0 auto;
+  margin-right:0 auto;
+}
+/* Styling h2 tags */
+h2{
+	text-align: center;
+}
+
+/* Centering the table on the about screen */
+table#myTable{
+	 margin-left:auto; 
+    margin-right:auto;
+	
+}
+
+/* Styling the images used in the options page */
+#navimage{
+	width:100px;
+	height:100px;
+}
+
+/* Center align text */
+#center{
+	text-align: center;
+}
+/* Left align text */
+#left{
+	text-align: left;
+}
+/* Styling the links on the options screen */
+#title_btn{
+	background-color: green;
+}
+
+#actor_btn{
+	background-color: blue;
+}
+
+#director_btn{
+	background-color: yellow;
+}
+
+/* Styling the results table */
+.resulttable{
+	background-color: white;
+	border: 1px solid red;
+	border-collapse: collapse;
+	text-align: left;
+	
+}
+td{
+	padding: 5px 8px 3px 5px;
+}
+
+.label {
+    width: 10%;
+    background-color: red;
+    color: white;
+    vertical-align:top;   
+}

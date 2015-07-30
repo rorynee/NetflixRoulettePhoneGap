@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=320; user-scalable=no" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>Netflix Roulette App</title>
+
+
+<!-- The following are the links to the different style sheets and java script files -->
+<link rel="stylesheet" href="jquery.mobile/themes/netfilx_theme.min.css" />
+<link rel="stylesheet" href="jquery.mobile/themes/jquery.mobile.icons.min.css" />	
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile.structure-1.4.3.min.css" />
+<link rel="stylesheet" href="netflixstyles.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script> 
+<script type="text/javascript" charset="utf-8" src="phonegap-1.4.1.js"></script>
+<script type="text/javascript" charset="utf-8" src="netflixscripts.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+	var onDeviceReady = function() {
+		document.getElementById("devready").innerHTML = "OnDeviceReady fired.";
+	};
+
+	function init() {
+		document.addEventListener("deviceready", onDeviceReady, true);
+	}
+	<!-- This function looks sfter the back button functionality on the home screen -->
+	
+	document.addEventListener("backbutton", function() {
+		if ($('.ui-page-active').attr('id') == 'home') {
+
+			exitAppPopup();
+		} else {
+			history.back();
+
+		}
+
+	}, false);
+	function exitAppPopup() {
+		<!-- Create the notification pop up so it can be confirmed by the user -->
+		navigator.notification.confirm('Are you sure you want to exit?', function(button) {
+
+				if (button == 2) {
+		
+					navigator.app.exitApp();
+		
+				}
+		
+			}, 'Exit', 'No,Yes'
+
+		);
+		return false;
+
+	}
+</script>
+
+</head>
+<body onload="init();" id="stage" class="theme">
+
+	<!-- Home Page -->
+	<div data-role="page" data-theme="a" id="home">
+		<!-- As all of the pages are the same i will just comment the first one and parts
+		of some of the rest -->
+		
+		<!-- Header  -->
+		<div data-role="header">
+			<!-- Setting up the Home icon -->
+			<a	class="ui-btn-left ui-btn ui-btn-icon-notext ui-icon-home ui-btn-corner-all ui-shadow"
+				title=" Home " data-form="ui-icon" href="#home" data-myclear="clear" data-transition="slide" data-direction="reverse"> Home </a>
+			<h1>Netflix Roulette</h1>
+			<!-- Setting up the Options icon -->
+			<a class="ui-btn-right ui-btn ui-btn-icon-notext ui-icon-grid ui-btn-corner-all ui-shadow" 
+			title=" Navigation " data-form="ui-icon" href="#alloptions" data-myclear="clear" data-transition="slidedown"> Navigation </a>
+
+		</div>
+		<div data-role="content">
+		<!-- Adding the main Logo to the page -->
+			<div id="logo">
+				<img src="images/mainlogo.png" data-role="dynamic-image">
+			</div>
+			<p>Search Netflix for a movie by title, actor or director. 
+					Please choose from the following options</p>
+
+			<!-- Setting the main button to the home page -->
+			<ul data-role="listview" data-inset="true">
+				<li data-role="list-divider"><h3>Find by</h3></li>
+				<li id="search_list" data-myclear="clear"><a href="#title" data-transition="slide"><img
+						src="images/clappersmall.png" class="ui-li-icon ui-corner-none"
+						alt="Search Title" id="search_icon" >Title</a></li>
+				<li id="search_list" data-myclear="clear"><a href="#actor" data-transition="slide"><img
+						src="images/actorsmall.png" class="ui-li-icon ui-corner-none" alt="Search Actor"
+						id="search_icon">Actor</a></li>
+				<li id="search_list" data-myclear="clear"><a href="#director" data-transition="slide"><img
+						src="images/directorschairsmall.png" class="ui-li-icon ui-corner-none"
+						alt="Search Director" id="search_icon">Director</a></li>
+
+			</ul>
+
+		</div>
+
+		<!-- Footer -->
+		<div data-role="footer">
+			<h4>&copy 2013 Netflix Roulette</h4>
+		</div>
+	</div>
+	
+	<!-- Search for title page -->
+	<div data-role="page" data-theme="b" id="title">
+		<div data-role="header">
+			<a	class="ui-btn-left ui-btn ui-btn-icon-notext ui-icon-home ui-btn-corner-all ui-shadow"
+				title=" Home " data-form="ui-icon" href="#home" data-myclear="clear" data-transition="slide" data-direction="reverse"> Home </a>
+			<h1>Netflix Roulette</h1>
+			<a class="ui-btn-right ui-btn ui-btn-icon-notext ui-icon-grid ui-btn-corner-all ui-shadow" 
+			title=" Navigation " data-form="ui-icon" href="#alloptions" data-myclear="clear" data-transition="slidedown"> Navigation </a>
+
+		</div>
+		<div data-role="content">
+		<div id="logo">
+				<img src="images/mainlogo.png" data-role="dynamic-image">
+			</div>
+			<h2>Search For Title</h2>
+			<p>please enter the title of the movie you would like to search for.</p>
+					          
+			<!-- A field to exept input in to the add -->		                       
+             <input type="text" name="name" id="title_input"  value="" placeholder="enter title" data-clear-btn="true">
+        
+         	<!-- Add ing th two buttons reset and search -->
+             <fieldset class="ui-grid-b">
+             		<div class="ui-block-b"><button id="reset_title"  data-theme="b">Reset</button></div>
+                    <div class="ui-block-b" style="float: right;"><button type="submit" id="title_btn"  data-theme="b">Search</button></div>
+             </fieldset>
+
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+			<div id="error_result"></div>
+
+		</div>
+
+
+		<div data-role="footer">
+			<h4>&copy 2013 Netflix Roulette</h4>
+		</div>
+	</div>
+	
+	<!-- Results page -->
+	<div data-role="page" data-theme="a" id="result_page">
+		<div data-role="header">
+			<a	class="ui-btn-left ui-btn ui-btn-icon-notext ui-icon-home ui-btn-corner-all ui-shadow"
+				title=" Home " data-form="ui-icon" href="#home" data-myclear="clear" data-transition="slide" data-direction="reverse"> Home </a>
+			<h1>Netflix Roulette</h1>
+			<a class="ui-btn-right ui-btn ui-btn-icon-notext ui-icon-grid ui-btn-corner-all ui-shadow" 
+			title=" Navigation " data-form="ui-icon" href="#alloptions" data-myclear="clear" data-transition="slidedown"> Navigation </a>
+
+		</div>
+		<div data-role="content">
+			<div id="logo">
+					<img src="images/mainlogo.png" data-role="dynamic-image">
+				</div>
+				<h2>Search Results</h2>
+				<!-- The result data will be added here using java script and jQueary  -->
+				<div id="result"></div>
+
+		</div>
+
+
+		<div data-role="footer">
+			<h4>&copy 2013 Netflix Roulette</h4>
+		</div>
+	</div>
+	
+	<!-- Search for actor page -->
+	<div data-role="page" data-theme="c" id="actor">
+		<div data-role="header">
+			<a	class="ui-btn-left ui-btn ui-btn-icon-notext ui-icon-home ui-btn-corner-all ui-shadow"
+				title=" Home " data-form="ui-icon" href="#home" data-myclear="clear" data-transition="slide" data-direction="reverse"> Home </a>
+			<h1>Netflix Roulette</h1>
+			<a class="ui-btn-right ui-btn ui-btn-icon-notext ui-icon-grid ui-btn-corner-all ui-shadow" 
+			title=" Navigation " data-form="ui-icon" href="#alloptions" data-myclear="clear" data-transition="slidedown"> Navigation </a>
+
+		</div>
+		<div data-role="content">
+		<div id="logo">
+				<img src="images/mainlogo.png" data-role="dynamic-image">
+			</div>
+			<h2>Search For Actor</h2>
+			<p>please enter the actors name you would like to search for.<br/>Please note you may entet the
+			actors last name only if you forget the first name.</p>
+					                       
+             <input type="text" name="name" id="actor_input" value="" placeholder="enter title" data-clear-btn="true">
+         
+             <fieldset class="ui-grid-b">
+             		<div class="ui-block-b"><button id="reset_actor"  data-theme="c">Reset</button></div>
+                     <div class="ui-block-b" style="float: right;"><button type="submit" id="actor_btn" data-theme="c">Search</button></div>
+             </fieldset>
+
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+
+		<div id="error_result_actor"></div>
+
+		</div>
+
+
+		<div data-role="footer">
+			<h4>&copy 2013 Netflix Roulette</h4>
+		</div>
+	</div>
+	
+	<!-- Search for director page -->
+	<div data-role="page" data-theme="d" id="director">
+		<div data-role="header">
+			<a	class="ui-btn-left ui-btn ui-btn-icon-notext ui-icon-home ui-btn-corner-all ui-shadow"
+				title=" Home " data-form="ui-icon" href="#home" data-myclear="clear" data-transition="slide" data-direction="reverse"> Home </a>
+			<h1>Netflix Roulette</h1>
+			<a class="ui-btn-right ui-btn ui-btn-icon-notext ui-icon-grid ui-btn-corner-all ui-shadow" 
+			title=" Navigation " data-form="ui-icon" href="#alloptions" data-myclear="clear" data-transition="slidedown"> Navigation </a>
+
+		</div>
+		<div data-role="content">
+		<div id="logo">
+				<img src="images/mainlogo.png" data-role="dynamic-image">
+			</div>
+			<h2>Search For Director</h2>
+			<p>please enter the directors name you would like to search for.</p>
+			<input type="text" name="name" id="director_input" value="" placeholder="enter title" data-clear-btn="true">
+         
+             <fieldset class="ui-grid-b">
+             		<div class="ui-block-b"><button id="reset_director"  data-theme="d">Reset</button></div>
+                     <div class="ui-block-b" style="float: right;"><button type="submit" id="director_btn"  data-theme="d">Search</button></div>
+             </fieldset>
+             
+             	<p>&nbsp;</p>
+				<p>&nbsp;</p>
+
+			<div id="error_result_director"></div>
+
+		</div>
+
+
+		<div data-role="footer">
+			<h4>&copy 2013 Netflix Roulette</h4>
+		</div>
+	</div>
+	
+	<!-- About page -->
+	<div data-role="page" data-theme="a" id="about">
+		<div data-role="header">
+			<a	class="ui-btn-left ui-btn ui-btn-icon-notext ui-icon-home ui-btn-corner-all ui-shadow"
+				title=" Home " data-form="ui-icon" href="#home" data-myclear="clear" data-transition="slide" data-direction="reverse"> Home </a>
+			<h1>Netflix Roulette</h1>
+			<a class="ui-btn-right ui-btn ui-btn-icon-notext ui-icon-grid ui-btn-corner-all ui-shadow" 
+			title=" Navigation " data-form="ui-icon" href="#alloptions" data-myclear="clear" data-transition="slidedown"> Navigation </a>
+
+		</div>
+		<div data-role="content">
+		<div id="logo">
+				<img src="images/mainlogo.png" data-role="dynamic-image">
+			</div>
+			<h2>About</h2>
+			<p>Welcome to the <b>Netflix Roulette</b><br/><br/>
+				Ever want to know if your favorite movie star is on Netflix?<br/>
+				You know the title of the movie but don’t know who is in it?<br/>
+				You though that movie was well directed but what else did he direct? <br/>
+				With this app you can search by the title, the actor or the director of a movie. If it is on the Netflix database we will get it and show you all the important information about the movie in question.
+				<br/>Enjoy
+			</p>
+
+
+
+		</div>
+
+
+		<div data-role="footer">
+			<h4>&copy 2013 Netflix Roulette</h4>
+		</div>
+	</div>
+	
+	<!-- Options page -->
+	<div data-role="page" data-theme="a" id="alloptions">
+		<div data-role="header">
+			<a	class="ui-btn-left ui-btn ui-btn-icon-notext ui-icon-home ui-btn-corner-all ui-shadow"
+				title=" Home " data-form="ui-icon" href="#home" data-myclear="clear" data-transition="slide" data-direction="reverse"> Home </a>
+			<h1>Netflix Roulette</h1>
+			<a class="ui-btn-right ui-btn ui-btn-icon-notext ui-icon-grid ui-btn-corner-all ui-shadow" 
+			title=" Navigation " data-form="ui-icon" href="#alloptions" data-myclear="clear" data-transition="slidedown"> Navigation </a>
+
+		</div>
+		<div data-role="content">
+		<div id="logo">
+				<img src="images/mainlogo.png" data-role="dynamic-image">
+			</div>
+			<p id="center">Below is a list of all search option found on this app</p>
+			<!--  The floowing table holds all the link to all the other pages -->
+			<table id="myTable" >
+		      <tbody>
+		        <tr>
+		          <td><a href="#title" class="ui-btn" id="title_btn" data-myclear="clear" data-transition="pop"><img src="images/clapper.png" id="navimage" data-role="dynamic-image"></a></td>
+		          <td><a href="#actor" class="ui-btn" id="actor_btn" data-myclear="clear" data-transition="pop"><img src="images/actor.png" id="navimage" data-role="dynamic-image"></a></td>
+		        </tr>
+		        <tr>
+		          <td id="center">Title</td>
+		          <td id="center">Actor</td>
+		        </tr>
+		        <tr>
+		          <td><a href="#director" class="ui-btn" id="director_btn" data-myclear="clear" data-transition="pop"><img src="images/directorschair.png" id="navimage" data-role="dynamic-image"></a></td>
+		          <td><a href="#about" class="ui-btn" data-myclear="clear" data-transition="pop"><img src="images/about.png" id="navimage" data-role="dynamic-image"></a></td>
+		        </tr>
+		        <tr>
+		          <td id="center">Director</td>
+		          <td id="center">About</td>
+		        </tr>
+		
+		      </tbody>
+		    </table>
+		  </div>
+			
+
+
+
+		
+
+
+		<div data-role="footer">
+			<h4>&copy 2013 Netflix Roulette</h4>
+		</div>
+	</div>
+
+
+
+
+
+</body>
+</html>

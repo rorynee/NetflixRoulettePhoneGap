@@ -1,4 +1,7 @@
-#![alt text][logo] Netflix Roulette Phone Gap
+![alt text][logo] 
+[logo]: https://raw.github.com/rorynee/NetflixRoulettePhoneGap/master/netflix_roulette/assets/www/images/mainlogo.png  "Netflix Roulette Logo"
+
+#Netflix Roulette - PhoneGap
  
 [Click here to view demo video]( https://www.youtube.com/watch?v=9-w0zgxhO0c " Netflix Roulette")
 
